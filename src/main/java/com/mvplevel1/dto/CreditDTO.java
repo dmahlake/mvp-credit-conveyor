@@ -6,8 +6,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreditDTO {
@@ -20,13 +18,4 @@ public class CreditDTO {
     private Boolean isInsuranceEnabled;
     private Boolean isSalaryClient;
     private List<PaymentScheduleElement> paymentSchedule;
-
-    public CreditDTO(BigDecimal rate, BigDecimal psk,  BigDecimal monthlyPayment)
-    {
-        this.rate = rate;
-        this.psk = psk;
-        //this.paymentSchedule = paymentSchedule;
-        this.monthlyPayment = monthlyPayment;
-
-    }
 }

@@ -5,8 +5,6 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Data
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoanOfferDTO {
@@ -19,10 +17,4 @@ public class LoanOfferDTO {
     private BigDecimal rate;
     private Boolean isInsuranceEnabled;
     private Boolean isSalaryClient;
-
-  public LoanOfferDTO(Boolean isInsuranceEnabled, Boolean isSalaryClient)
-    {
-        this.isInsuranceEnabled = isInsuranceEnabled;
-        this.isSalaryClient = isSalaryClient;
-    }
 }
