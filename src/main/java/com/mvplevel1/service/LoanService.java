@@ -4,7 +4,7 @@ import com.mvplevel1.customEnum.EmploymentStatus;
 import com.mvplevel1.customEnum.Gender;
 import com.mvplevel1.customEnum.MaritalStatus;
 import com.mvplevel1.dto.*;
-import com.mvplevel1.exception.QualifyLoan;
+import com.mvplevel1.exception.QualifyLoanException;
 import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -30,11 +30,11 @@ public class LoanService {
 
     private final List<LoanOfferDTO> loanOffers = new ArrayList<>();
     private String emailPattern = "^(.+)@(.+)$";
-    private String NameCharacters = "^[A-Z][a-z]{2,}(?: [A-Z][a-z]*)*$";
+    private String nameCharacters = "^[A-Z][a-z]{2,}(?: [A-Z][a-z]*)*$";
 
     public List<LoanOfferDTO> offers(LoanApplicationRequestDTO requestDTO )
     {
-        if (requestDTO.getFirstName().matches(NameCharacters) && requestDTO.getLastName().matches(NameCharacters))
+        if (requestDTO.getFirstName().matches(nameCharacters) && requestDTO.getLastName().matches(nameCharacters))
         {
                 if (requestDTO.getTerm() >= 6) {
                     if (requestDTO.getEmail().matches(emailPattern)) {
@@ -89,7 +89,7 @@ public class LoanService {
 
         if(requestDto.getEmployment().getEmploymentStatus().toString().matches(EmploymentStatus.UNEMPLOYED.name())){
              LOGGER.error("Sorry you don't qualify for a loan");
-            throw new QualifyLoan("Sorry you don't qualify for loan");
+            throw new QualifyLoanException("Sorry you don't qualify for loan");
 
          }
          if(requestDto.getEmployment().getEmploymentStatus().toString().matches(EmploymentStatus.SELFEMPLOYED.name()))
@@ -116,7 +116,7 @@ public class LoanService {
                  && Period.between(requestDto.getBirthdate() , LocalDate.now()).getYears() > 60)
          {
              LOGGER.error("Sorry you don't qualify for loan");
-             throw new QualifyLoan("Sorry you don't qualify for loan");
+             throw new QualifyLoanException("Sorry you don't qualify for loan");
          }
          if (requestDto.getGender().toString().matches(Gender.FEMALE.name())
                  || Period.between(requestDto.getBirthdate() , LocalDate.now()).getYears() == 35
@@ -134,7 +134,7 @@ public class LoanService {
                 && requestDto.getEmployment().getWorkExperienceCurrent() < 3)
          {
              LOGGER.error("Sorry you do not qualify for a loan");
-             throw new QualifyLoan("Sorry you don't qualify for loan");
+             throw new QualifyLoanException("Sorry you don't qualify for loan");
          }
 
         totalPayment = requestDto.getAmount().multiply(rate);
